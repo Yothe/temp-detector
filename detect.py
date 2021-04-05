@@ -128,8 +128,8 @@ def detect(save_img=False):
                         Color, thin = [0,255,0], 1
                         cx, cy = (x2-x1)/2, (y2-y1)/2
                         for x in violations: 
-                          if cx-x[0] <=10 and cy-x[1] <=10: 
-                            Color, thin = [255,0,0], 3
+                          if abs(cx-x[0]) <=10 and abs(cy-x[1]) <=10: 
+                            Color, thin = [255,0,0], 1
 
                         plot_one_box(xyxy, im0, label=label, color=Color, line_thickness=thin)
                 violations = []
