@@ -132,8 +132,7 @@ def detect(save_img=False):
                             Color, thin = [255,0,0], 3
 
                         plot_one_box(xyxy, im0, label=label, color=Color, line_thickness=thin)
-
-                        
+                violations = []
 ####################################>>>>>>>>>> END of modified code <<<<<<<<<<<##########################       
 
             # Print time (inference + NMS)
