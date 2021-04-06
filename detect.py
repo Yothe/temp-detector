@@ -125,12 +125,12 @@ def detect(save_img=False):
                         y2 = int(xyxy[3].item())
                         cx, cy = (x2-x1)/2, (y2-y1)/2
                         
-                        Color = [255,0,0]
+                        Color = [0,255,0]
                         for x in violations: 
                           dist = ((cx-x[0])**2 + (cy-x[1])**2)**(0.5) # distance between cnetriods
                           #print(dist)
                           if dist < 10 and dist > 0: #98 pixels = 1m; dist=0 means centroid has found itself 
-                            Color = [0,255,0]
+                            Color = [0,0,255]
 
                         plot_one_box(xyxy, im0, color=Color, line_thickness=1)    ### modify bounding box
                 violations = []
