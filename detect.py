@@ -128,7 +128,8 @@ def detect(save_img=False):
                         Color, thin = [0,255,0], 1
                         cx, cy = (x2-x1)/2, (y2-y1)/2
                         for x in violations: 
-                          dist = ((cx-x[0])**2 + (cy-x[1])**2)**(0.5) 
+                          dist = ((cx-x[0])**2 + (cy-x[1])**2)**(0.5) # distance between cnetriods
+                          print(dist)
                           if dist < 98 and dist > 0: #98 pixels = 1m; dist=0 means centroid has found itself 
                             Color, thin = [0,0,255], 1
 
