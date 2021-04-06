@@ -125,7 +125,7 @@ def detect(save_img=False):
                         y2 = int(xyxy[3].item())
                         cx, cy = (x2-x1)/2, (y2-y1)/2
                         
-                        Color = [0,255,0]
+                        Color = [255,255,255]
                         for x in violations: 
                           dist = ((cx-x[0])**2 + (cy-x[1])**2)**(0.5) # distance between cnetriods
                           print(dist)
