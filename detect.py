@@ -132,7 +132,7 @@ def detect(save_img=False):
                             #print(dist)
                             
                             # 98 pixels = 1m; dist=0 means centroid has found itself 
-                            if dist < 4 and dist > 0: Color = [0,0,255]
+                            if dist < 2 and dist > 0: Color = [0,0,255]
 
                         plot_one_box(xyxy, im0, color=Color, line_thickness=1)    ### modify bounding box
                 violations = []
