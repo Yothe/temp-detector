@@ -90,6 +90,7 @@ def detect(opt):
 
                 # Write results
                 for *xyxy, conf, cls in reversed(det):
+                    print(xyxy)
 
                     if save_img or opt.save_crop or view_img:  # Add bbox to image
                         c = int(cls)  # integer class
