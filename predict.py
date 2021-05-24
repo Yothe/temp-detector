@@ -83,7 +83,7 @@ def detect(opt):
 
         # Process detections
         for i, det in enumerate(pred):  # detections per image
-
+            p, s, im0 = Path(path), '', im0s
             p = Path(p)  # to Path
             save_path = str(save_dir / p.name)  # img.jpg
             txt_path = str(save_dir / 'labels' / p.stem) + ('' if dataset.mode == 'image' else f'_{frame}')  # img.txt
