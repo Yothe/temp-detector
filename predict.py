@@ -76,13 +76,13 @@ def detect(opt):
         # Apply Classifier
         if classify:
             pred = apply_classifier(pred, modelc, img, im0s)
+            
+        print("pred")
+        print(pred)
+        print("done")
 
         # Process detections
         for i, det in enumerate(pred):  # detections per image
-            if webcam:  # batch_size >= 1
-                p, s, im0, frame = path[i], f'{i}: ', im0s[i].copy(), dataset.count
-            else:
-                p, s, im0, frame = path, '', im0s.copy(), getattr(dataset, 'frame', 0)
 
             p = Path(p)  # to Path
             save_path = str(save_dir / p.name)  # img.jpg
@@ -98,7 +98,6 @@ def detect(opt):
                 for c in det[:, -1].unique():
                     n = (det[:, -1] == c).sum()  # detections per class
                     s += f"{n} {names[int(c)]}{'s' * (n > 1)}, "  # add to string
-                    print(s)
 
                 # Write results
                 for *xyxy, conf, cls in reversed(det):
