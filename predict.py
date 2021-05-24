@@ -14,6 +14,25 @@ from utils.plots import colors, plot_one_box
 from utils.torch_utils import select_device, load_classifier, time_synchronized
 
 
+### From last scene generates next scene
+def nextDetections(prev_frame):
+  new_frame = []
+  for i, p in enumerate(prev_frame):
+    person = p + np.random.uniform(-1, 1.4 ,(1,2))
+    person = np.round(person, 2)
+    new_frame.append(person[0])
+  return new_frame
+
+def genVectors(frame1, frame2):
+  # TODO speed, angle
+  vectors = []
+  for i, p in enumerate(frame2):
+    speed = round(0.0+np.random.uniform(0.7, 2.1),2) # average human speed is 1.4ms, (f2-f1)/time
+    angle = round(int(np.random.uniform(60, 180)),2)
+    vectors.append( [p[0],p[1],speed,angle] )
+  return vectors
+
+
 @torch.no_grad()
 def detect(opt):
     source, weights, view_img, save_txt, imgsz = opt.source, opt.weights, opt.view_img, opt.save_txt, opt.img_size
@@ -86,6 +105,21 @@ def detect(opt):
             if len(det):
                 # Rescale boxes from img_size to im0 size
                 det[:, :4] = scale_coords(img.shape[2:], det[:, :4], im0.shape).round()
+                
+                
+                           
+                # Write results
+                frame1 = []
+                for *xyxy, conf, cls in reversed(det): ########>>>>>>>> Single image, looped to all cropped results
+                    x1 = int(xyxy[0].item())
+                    y1 = int(xyxy[1].item())
+                    x2 = int(xyxy[2].item())
+                    y2 = int(xyxy[3].item())
+                    cx, cy = (x2-x1)/2, (y2-y1)/2
+                    
+                    frame1.append([cx, cy])
+                frame2 = nextDetections(frame1)
+                vectors = genVectors(frame1,frame2)
 
 
                 # Write results
