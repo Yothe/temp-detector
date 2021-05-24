@@ -13,7 +13,7 @@ from utils.general import check_img_size, check_requirements, check_imshow, non_
 from utils.plots import colors, plot_one_box
 from utils.torch_utils import select_device, load_classifier, time_synchronized
 
-
+import numpy as np
 ### From last scene generates next scene
 def nextDetections(prev_frame):
   new_frame = []
