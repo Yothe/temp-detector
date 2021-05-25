@@ -173,7 +173,8 @@ def detect(opt):
     for pred in acc:
         plt.plot(pred)
     plt.legend(["Kmeans", "DBScan", "KMedoids","BIRCH","affinity","Agglo"])
-    plt.show()
+    #plt.show()
+    plt.savefig('data/images/res.png')
 
 
 if __name__ == '__main__':
