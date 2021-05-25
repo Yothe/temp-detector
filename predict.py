@@ -14,6 +14,7 @@ from utils.plots import colors, plot_one_box
 from utils.torch_utils import select_device, load_classifier, time_synchronized
 
 import algo
+import matplotlib.pyplot as plt
 import numpy as np
 
 @torch.no_grad()
@@ -76,6 +77,7 @@ def detect(opt):
             
 
         # Process detections
+        acc = [[0],[0],[0],[0],[0],[0]]
         for i, det in enumerate(pred):  # detections per image
             p, s, im0, frame = path, '', im0s.copy(), getattr(dataset, 'frame', 0)
             p = Path(p)  # to Path
@@ -99,10 +101,25 @@ def detect(opt):
                     x2 = int(xyxy[2].item())
                     y2 = int(xyxy[3].item())
                     cx, cy = (x2-x1)/2, (y2-y1)/2
-                    
                     frame1.append([cx, cy])
                 frame2 = algo.nextDetections(frame1)
                 vectors = algo.genVectors(frame1,frame2)
+                
+                k_clusters = 2
+                label = algo.groundTruth(vectors, 2)
+                pred0 = algo.KMeans(vectors, k_clusters=k_clusters)
+                pred1 = algo.DBSCAN(vectors, k_clusters=k_clusters)
+                pred2 = algo.KMedoids(vectors, k_clusters=k_clusters)
+                pred3 = algo.BIRCH(vectors, k_clusters=k_clusters)
+                pred4 = algo.AffinityPropagation(vectors, k_clusters=k_clusters)
+                pred5 = algo.AgglomerativeClustering(vectors, k_clusters=k_clusters)
+
+                acc[0].append( ((pred0==label).mean()+acc[0][-1]) /2)
+                acc[1].append( ((pred1==label).mean()+acc[1][-1]) /2)
+                acc[2].append( ((pred2==label).mean()+acc[2][-1]) /2)
+                acc[3].append( ((pred3==label).mean()+acc[3][-1]) /2)
+                acc[4].append( ((pred4==label).mean()+acc[4][-1]) /2)
+                acc[5].append( ((pred5==label).mean()+acc[5][-1]) /2)
 
 
                 # Write results
@@ -153,6 +170,10 @@ def detect(opt):
         print(f"Results saved to {save_dir}{s}")
 
     print(f'Done. ({time.time() - t0:.3f}s)')
+    for pred in acc:
+        plt.plot(pred)
+    plt.legend(["Kmeans", "DBScan", "KMedoids","BIRCH","affinity","Agglo"])
+    plt.show()
 
 
 if __name__ == '__main__':
