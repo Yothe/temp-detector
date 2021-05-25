@@ -13,26 +13,8 @@ from utils.general import check_img_size, check_requirements, check_imshow, non_
 from utils.plots import colors, plot_one_box
 from utils.torch_utils import select_device, load_classifier, time_synchronized
 
+import algo
 import numpy as np
-
-### From last scene generates next scene
-def nextDetections(prev_frame):
-  new_frame = []
-  for i, p in enumerate(prev_frame):
-    person = p + np.random.uniform(-1, 1.4 ,(1,2))
-    person = np.round(person, 2)
-    new_frame.append(person[0])
-  return new_frame
-
-def genVectors(frame1, frame2):
-  # TODO speed, angle
-  vectors = []
-  for i, p in enumerate(frame2):
-    speed = round(0.0+np.random.uniform(0.7, 2.1),2) # average human speed is 1.4ms, (f2-f1)/time
-    angle = round(int(np.random.uniform(60, 180)),2)
-    vectors.append( [p[0],p[1],speed,angle] )
-  return vectors
-
 
 @torch.no_grad()
 def detect(opt):
@@ -119,8 +101,8 @@ def detect(opt):
                     cx, cy = (x2-x1)/2, (y2-y1)/2
                     
                     frame1.append([cx, cy])
-                frame2 = nextDetections(frame1)
-                vectors = genVectors(frame1,frame2)
+                frame2 = algo.nextDetections(frame1)
+                vectors = algo.genVectors(frame1,frame2)
 
 
                 # Write results
