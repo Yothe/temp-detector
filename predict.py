@@ -174,7 +174,7 @@ def detect(opt):
         plt.plot(pred)
     plt.legend(["Kmeans", "DBScan", "KMedoids","BIRCH","affinity","Agglo"])
     #plt.show()
-    plt.savefig('data/images/res.png')
+    plt.savefig('RESULTS/res.png')
 
 
 if __name__ == '__main__':
