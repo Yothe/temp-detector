@@ -167,7 +167,7 @@ def detect(opt):
     for pred in acc: plt.plot(pred)
     plt.legend(["Kmeans", "DBScan", "KMedoids","BIRCH","affinity","Agglo"])
     #plt.show()
-    plt.savefig('RESULTS/res'+time.time()+'.png')
+    plt.savefig('RESULTS/res'+str(time.time()) +'.png')
 
     if save_txt or save_img:
         s = f"\n{len(list(save_dir.glob('labels/*.txt')))} labels saved to {save_dir / 'labels'}" if save_txt else ''
