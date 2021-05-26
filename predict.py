@@ -114,9 +114,9 @@ def detect(opt):
                 pred4 = algo.AffinityPropagation(vectors, k_clusters=k_clusters)
                 pred5 = algo.AgglomerativeClustering(vectors, k_clusters=k_clusters)
 
-                #acc[0].append( ((pred0==label).mean()+acc[0][-1]) /2)
+                acc[0].append( ((pred0==label).mean()+acc[0][-1]) /2)
                 #acc[1].append( ((pred1==label).mean()+acc[1][-1]) /2)
-                acc[2].append( ((pred2==label).mean()+acc[2][-1]) /2)
+                #acc[2].append( ((pred2==label).mean()+acc[2][-1]) /2)
                 #acc[3].append( ((pred3==label).mean()+acc[3][-1]) /2)
                 #acc[4].append( ((pred4==label).mean()+acc[4][-1]) /2)
                 #acc[5].append( ((pred5==label).mean()+acc[5][-1]) /2)
