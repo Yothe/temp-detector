@@ -165,8 +165,8 @@ def detect(opt):
                         vid_writer = cv2.VideoWriter(save_path, cv2.VideoWriter_fourcc(*'mp4v'), fps, (w, h))
                     vid_writer.write(im0)
     for pred in acc: plt.plot(pred)
-    #plt.legend(["Kmeans", "DBScan", "KMedoids","BIRCH","affinity","Agglo"])
-    plt.legend(["Kmeans", "KMedoids","BIRCH","affinity"])
+    plt.legend(["Kmeans", "DBScan", "KMedoids","BIRCH","affinity","Agglo"])
+    #plt.legend(["Kmeans", "KMedoids","BIRCH","affinity"])
     #plt.show()
     plt.savefig('RESULTS/res'+str(time.time()) +'.png')
 
