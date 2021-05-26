@@ -55,6 +55,7 @@ def detect(opt):
     if device.type != 'cpu':
         model(torch.zeros(1, 3, imgsz, imgsz).to(device).type_as(next(model.parameters())))  # run once
     t0 = time.time()
+    acc = [[0],[0],[0],[0],[0],[0]]
     for path, img, im0s, vid_cap in dataset:
         img = torch.from_numpy(img).to(device)
         img = img.half() if half else img.float()  # uint8 to fp16/32
@@ -77,7 +78,6 @@ def detect(opt):
             
 
         # Process detections
-        acc = [[0],[0],[0],[0],[0],[0]]
         for i, det in enumerate(pred):  # detections per image
             p, s, im0, frame = path, '', im0s.copy(), getattr(dataset, 'frame', 0)
             p = Path(p)  # to Path
@@ -164,10 +164,10 @@ def detect(opt):
                             save_path += '.mp4'
                         vid_writer = cv2.VideoWriter(save_path, cv2.VideoWriter_fourcc(*'mp4v'), fps, (w, h))
                     vid_writer.write(im0)
-            for pred in acc: plt.plot(pred)
-            plt.legend(["Kmeans", "DBScan", "KMedoids","BIRCH","affinity","Agglo"])
-            #plt.show()
-            plt.savefig('RESULTS/res'+str(i)+'.png')
+    for pred in acc: plt.plot(pred)
+    plt.legend(["Kmeans", "DBScan", "KMedoids","BIRCH","affinity","Agglo"])
+    #plt.show()
+    plt.savefig('RESULTS/res'+time.time()+'.png')
 
     if save_txt or save_img:
         s = f"\n{len(list(save_dir.glob('labels/*.txt')))} labels saved to {save_dir / 'labels'}" if save_txt else ''
