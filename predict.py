@@ -164,11 +164,10 @@ def detect(opt):
                             save_path += '.mp4'
                         vid_writer = cv2.VideoWriter(save_path, cv2.VideoWriter_fourcc(*'mp4v'), fps, (w, h))
                     vid_writer.write(im0)
-        for pred in acc:
-            plt.plot(pred)
-        plt.legend(["Kmeans", "DBScan", "KMedoids","BIRCH","affinity","Agglo"])
-        #plt.show()
-        plt.savefig('RESULTS/res'+str(i)+'.png')
+            for pred in acc: plt.plot(pred)
+            plt.legend(["Kmeans", "DBScan", "KMedoids","BIRCH","affinity","Agglo"])
+            #plt.show()
+            plt.savefig('RESULTS/res'+str(i)+'.png')
 
     if save_txt or save_img:
         s = f"\n{len(list(save_dir.glob('labels/*.txt')))} labels saved to {save_dir / 'labels'}" if save_txt else ''
