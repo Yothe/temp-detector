@@ -78,6 +78,7 @@ def detect(opt):
             
 
         # Process detections
+        frame1, frame2 = [], []
         for i, det in enumerate(pred):  # detections per image
             p, s, im0, frame = path, '', im0s.copy(), getattr(dataset, 'frame', 0)
             p = Path(p)  # to Path
@@ -95,8 +96,33 @@ def detect(opt):
                 
                 
                            
-                # Write results
-                frame1 = []
+
+                if frame % 2==0:
+                    for *xyxy, conf, cls in reversed(det): ########>>>>>>>> Single image, looped to all cropped results
+                        x1 = int(xyxy[0].item())
+                        y1 = int(xyxy[1].item())
+                        x2 = int(xyxy[2].item())
+                        y2 = int(xyxy[3].item())
+                        cx, cy = (x2-x1)/2, (y2-y1)/2
+                        frame2.append([cx, cy])      
+                    vectors = algo.genVectors(frame1,frame2)                       
+                    k_clusters = 2
+                    label = algo.groundTruth(vectors, 2)
+                    pred0 = algo.KMeans(vectors, k_clusters=k_clusters)
+                    pred1 = algo.DBSCAN(vectors, k_clusters=k_clusters)
+                    pred2 = algo.KMedoids(vectors, k_clusters=k_clusters)
+                    pred3 = algo.BIRCH(vectors, k_clusters=k_clusters)
+                    pred4 = algo.AffinityPropagation(vectors, k_clusters=k_clusters)
+                    pred5 = algo.AgglomerativeClustering(vectors, k_clusters=k_clusters)
+
+                    #acc[0].append( ((pred0==label).mean()+acc[0][-1]) /2)
+                    #acc[1].append( ((pred1==label).mean()+acc[1][-1]) /2)
+                    #acc[2].append( ((pred2==label).mean()+acc[2][-1]) /2)
+                    #acc[3].append( ((pred3==label).mean()+acc[3][-1]) /2)
+                    #acc[4].append( ((pred4==label).mean()+acc[4][-1]) /2)
+                    acc[5].append( ((pred5==label).mean()+acc[5][-1]) /2)
+                    frame1, frame2 = [], []
+
                 for *xyxy, conf, cls in reversed(det): ########>>>>>>>> Single image, looped to all cropped results
                     x1 = int(xyxy[0].item())
                     y1 = int(xyxy[1].item())
@@ -104,26 +130,7 @@ def detect(opt):
                     y2 = int(xyxy[3].item())
                     cx, cy = (x2-x1)/2, (y2-y1)/2
                     frame1.append([cx, cy])
-                frame2 = algo.nextDetections(frame1)
-                vectors = algo.genVectors(frame1,frame2)
-                
-                k_clusters = 2
-                label = algo.groundTruth(vectors, 2)
-                pred0 = algo.KMeans(vectors, k_clusters=k_clusters)
-                pred1 = algo.DBSCAN(vectors, k_clusters=k_clusters)
-                pred2 = algo.KMedoids(vectors, k_clusters=k_clusters)
-                pred3 = algo.BIRCH(vectors, k_clusters=k_clusters)
-                pred4 = algo.AffinityPropagation(vectors, k_clusters=k_clusters)
-                pred5 = algo.AgglomerativeClustering(vectors, k_clusters=k_clusters)
-
-                #acc[0].append( ((pred0==label).mean()+acc[0][-1]) /2)
-                #acc[1].append( ((pred1==label).mean()+acc[1][-1]) /2)
-                #acc[2].append( ((pred2==label).mean()+acc[2][-1]) /2)
-                #acc[3].append( ((pred3==label).mean()+acc[3][-1]) /2)
-                #acc[4].append( ((pred4==label).mean()+acc[4][-1]) /2)
-                acc[5].append( ((pred5==label).mean()+acc[5][-1]) /2)
-
-
+                    
                 # Write results
                 for *xyxy, conf, cls in reversed(det):
                     #print(xyxy)
