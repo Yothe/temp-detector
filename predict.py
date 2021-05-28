@@ -87,7 +87,7 @@ def detect(opt):
             gn = torch.tensor(im0.shape)[[1, 0, 1, 0]]  # normalization gain whwh
             imc = im0.copy() if opt.save_crop else im0  # for opt.save_crop
             
-            print("ooooooooooooooooooooooo||", i, "||ooooooooooooooooooooooo")
+            print("ooooooooooooooooooooooo||", frame, "||ooooooooooooooooooooooo")
             
             if len(det):
                 # Rescale boxes from img_size to im0 size
